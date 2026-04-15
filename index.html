@@ -50,7 +50,7 @@
   }
   .home-header h1 {
     font-family: var(--font-cond);
-    font-size: 42px;
+    font-size: 50px;
     font-weight: 700;
     color: var(--white);
     letter-spacing: -0.01em;
@@ -76,7 +76,7 @@
 
   .filter-chip {
     font-family: var(--font-cond);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -106,7 +106,7 @@
   .workout-card-info { flex: 1; min-width: 0; }
   .workout-card-name {
     font-family: var(--font-cond);
-    font-size: 17px;
+    font-size: 25px;
     font-weight: 600;
     color: var(--black);
     letter-spacing: 0.01em;
@@ -129,7 +129,7 @@
   .diff-med { background: #555; color: var(--white); }
 
   .workout-card-meta {
-    font-size: 11px;
+    font-size: 15px;
     color: var(--gray-400);
     margin-top: 3px;
     letter-spacing: 0.03em;
@@ -161,7 +161,7 @@
     align-items: center;
     gap: 6px;
     color: var(--gray-400);
-    font-size: 12px;
+    font-size: 17px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     font-family: var(--font-cond);
@@ -171,7 +171,7 @@
     margin-bottom: 16px;
   }
   .back-btn:active { color: var(--white); }
-  .back-arrow { font-size: 16px; }
+  .back-arrow { font-size: 19px; }
 
   .detail-label {
     font-size: 10px;
@@ -202,7 +202,7 @@
     border-bottom: 1px solid var(--gray-100);
   }
   .detail-description p {
-    font-size: 13px;
+    font-size: 19px;
     color: var(--gray-600);
     line-height: 1.6;
   }
@@ -238,12 +238,12 @@
   }
   .ex-info { flex: 1; }
   .ex-name-text {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 500;
     color: var(--black);
   }
   .ex-reps {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--gray-400);
     margin-top: 2px;
   }
@@ -299,7 +299,7 @@
   }
   .ex-desc-section h3 {
     font-family: var(--font-cond);
-    font-size: 11px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -307,7 +307,7 @@
     margin-bottom: 10px;
   }
   .ex-desc-section p, .ex-desc-section li {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--gray-800);
     line-height: 1.7;
   }
@@ -642,7 +642,7 @@
 ════════════════════════════════════════════ -->
 <div id="screen-home" class="screen active has-nav">
   <div class="home-header">
-    <h1>Complexes</h1>
+    <h1>Whiteboard</h1>
     <p id="home-subtitle">6 workouts</p>
   </div>
   <div class="filter-bar">
@@ -859,11 +859,11 @@ const WORKOUTS = [
     rounds: 5,
     description: "A classic barbell complex adapted for kettlebell. Five movements performed back-to-back without setting the bell down. One full sequence counts as one rep — complete five reps per round, five rounds total. Rest between rounds as needed. It will humble you.",
     exercises: [
-      { name: "Clean", reps: "1 rep" },
-      { name: "Front Squat", reps: "1 rep" },
-      { name: "Push Press", reps: "1 rep" },
-      { name: "Back Squat", reps: "1 rep" },
-      { name: "Push Press", reps: "1 rep" }
+      { name: "Clean", reps: "8 reps" },
+      { name: "Front Squat", reps: "8 reps" },
+      { name: "Push Press", reps: "8 reps" },
+      { name: "Back Squat", reps: "8 reps" },
+      { name: "Snatch", reps: "8 reps" }
     ]
   },
   {
@@ -885,9 +885,9 @@ const WORKOUTS = [
     rounds: 4,
     description: "A Dan John staple. Two cleans, one press, three front squats — performed as a single unbroken sequence. Designed to build shoulder and upper back mass while reinforcing movement quality under fatigue. Start lighter than you think you need to.",
     exercises: [
-      { name: "Clean", reps: "2 reps" },
-      { name: "Press", reps: "1 rep" },
-      { name: "Front Squat", reps: "3 reps" }
+      { name: "Clean", reps: "10 reps" },
+      { name: "Press", reps: "10 rep" },
+      { name: "Front Squat", reps: "10 reps" }
     ]
   },
   {
@@ -910,8 +910,8 @@ const WORKOUTS = [
     rounds: 6,
     description: "The foundational kettlebell sport lift. Clean the bell from the floor to the rack, press it overhead, return to rack, set it down — that's one rep. The 'long' refers to the full range of motion. Deceptively simple. Builds incredible total-body conditioning over time.",
     exercises: [
-      { name: "Clean", reps: "1 rep" },
-      { name: "Press", reps: "1 rep" }
+      { name: "Clean", reps: "8 reps" },
+      { name: "Press", reps: "8 reps" }
     ]
   },
   {

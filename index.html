@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KB Complexes">
+<meta name="theme-color" content="#111111">
+<title>WHITEBOARD</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --gray-100: #f5f5f5;
+    --gray-200: #e8e8e8;
+    --gray-400: #aaaaaa;
+    --gray-600: #666666;
+    --gray-800: #333333;
+    --font-main: 'Barlow', sans-serif;
+    --font-cond: 'Barlow Condensed', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--white);
+    color: var(--black);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* SCREENS */
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  /* STATUS BAR SAFE AREA */
+  .safe-top { padding-top: env(safe-area-inset-top, 12px); }
+  .safe-bot { padding-bottom: env(safe-area-inset-bottom, 16px); }
+
+  /* ─── HOME SCREEN ─── */
+  #screen-home { background: var(--white); }
+
+  .home-header {
+    background: var(--black);
+    padding: 52px 24px 24px;
+    padding-top: calc(env(safe-area-inset-top, 12px) + 40px);
+  }
+  .home-header h1 {
+    font-family: var(--font-cond);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .home-header p {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--gray-200);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+
+  .filter-chip {
+    font-family: var(--font-cond);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-200);
+    color: var(--gray-400);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-chip.active { background: var(--black); border-color: var(--black); color: var(--white); }
+
+  .workout-list { flex: 1; overflow-y: auto; }
+
+  .workout-card {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: background 0.1s;
+    gap: 16px;
+  }
+  .workout-card:active { background: var(--gray-100); }
+
+  .workout-card-info { flex: 1; min-width: 0; }
+  .workout-card-name {
+    font-family: var(--font-cond);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .diff-badge {
+    font-size: 9px;
+    font-family: var(--font-cond);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .diff-easy { background: var(--gray-100); color: var(--gray-600); }
+  .diff-med { background: var(--black); color: var(--white); }
+  .diff-hard { background: var(--black); color: var(--white); }
+  .diff-med { background: #555; color: var(--white); }
+
+  .workout-card-meta {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 3px;
+    letter-spacing: 0.03em;
+  }
+  .workout-card-last {
+    font-size: 10px;
+    color: var(--gray-600);
+    margin-top: 5px;
+    letter-spacing: 0.02em;
+  }
+  .workout-card-last span { color: var(--black); font-weight: 500; }
+
+  .workout-card-arrow {
+    font-size: 20px;
+    color: var(--gray-200);
+    font-weight: 300;
+  }
+
+  /* ─── DETAIL SCREEN ─── */
+  #screen-detail { background: var(--white); }
+
+  .detail-hero {
+    background: var(--black);
+    padding: 0 24px 24px;
+    padding-top: calc(env(safe-area-inset-top, 12px) + 10px);
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray-400);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: var(--font-cond);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px 0;
+    margin-bottom: 16px;
+  }
+  .back-btn:active { color: var(--white); }
+  .back-arrow { font-size: 16px; }
+
+  .detail-label {
+    font-size: 10px;
+    color: var(--gray-600);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-cond);
+    font-weight: 600;
+  }
+  .detail-title {
+    font-family: var(--font-cond);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+    line-height: 1.05;
+  }
+  .detail-sub {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .detail-description {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .detail-description p {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.6;
+  }
+
+  .detail-section-label {
+    font-family: var(--font-cond);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    padding: 14px 24px 8px;
+  }
+
+  .exercise-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    gap: 14px;
+    transition: background 0.1s;
+  }
+  .exercise-row:active { background: var(--gray-100); }
+
+  .ex-num {
+    font-family: var(--font-cond);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-400);
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .ex-info { flex: 1; }
+  .ex-name-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+  }
+  .ex-reps {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+  .ex-chevron {
+    font-size: 14px;
+    color: var(--gray-200);
+  }
+
+  .detail-start-wrap {
+    padding: 20px 24px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 16px) + 20px);
+  }
+  .start-btn {
+    width: 100%;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: var(--font-cond);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .start-btn:active { opacity: 0.8; }
+
+  /* ─── EXERCISE DESCRIPTION SCREEN ─── */
+  #screen-exercise { background: var(--white); }
+
+  .ex-desc-hero {
+    background: var(--black);
+    padding: 0 24px 24px;
+    padding-top: calc(env(safe-area-inset-top, 12px) + 10px);
+  }
+  .ex-desc-title {
+    font-family: var(--font-cond);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    margin-top: 4px;
+    line-height: 1.05;
+  }
+  .ex-desc-body {
+    padding: 20px 24px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .ex-desc-section {
+    margin-bottom: 24px;
+  }
+  .ex-desc-section h3 {
+    font-family: var(--font-cond);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 10px;
+  }
+  .ex-desc-section p, .ex-desc-section li {
+    font-size: 14px;
+    color: var(--gray-800);
+    line-height: 1.7;
+  }
+  .ex-desc-section ul { padding-left: 18px; }
+  .ex-desc-section li { margin-bottom: 4px; }
+
+  /* ─── ACTIVE WORKOUT SCREEN ─── */
+  #screen-active { background: var(--black); }
+
+  .active-header {
+    background: var(--black);
+    padding: 0 24px 20px;
+    padding-top: calc(env(safe-area-inset-top, 12px) + 16px);
+    border-bottom: 1px solid #222;
+  }
+  .active-now-label {
+    font-family: var(--font-cond);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 4px;
+  }
+  .active-title {
+    font-family: var(--font-cond);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+  .active-rounds {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .timer-section {
+    padding: 28px 24px 24px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .timer-display {
+    font-family: var(--font-cond);
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .timer-label {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-cond);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .active-exercises {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+  }
+  .active-section-label {
+    font-family: var(--font-cond);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #333;
+    padding: 14px 24px 6px;
+  }
+  .active-ex-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid #1a1a1a;
+    gap: 14px;
+  }
+  .active-ex-num {
+    font-family: var(--font-cond);
+    font-size: 11px;
+    font-weight: 600;
+    color: #333;
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .active-ex-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #888;
+    flex: 1;
+  }
+  .active-ex-reps {
+    font-size: 12px;
+    color: #333;
+  }
+
+  .active-finish-wrap {
+    padding: 20px 24px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 16px) + 20px);
+    border-top: 1px solid #1a1a1a;
+  }
+  .finish-btn {
+    width: 100%;
+    background: transparent;
+    color: #444;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: var(--font-cond);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .finish-btn:active { border-color: #555; color: #888; }
+
+  /* ─── FINISH SCREEN ─── */
+  #screen-finish { background: var(--black); justify-content: center; align-items: center; }
+
+  .finish-content {
+    padding: 40px 32px;
+    text-align: center;
+    width: 100%;
+  }
+  .finish-done-label {
+    font-family: var(--font-cond);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 12px;
+  }
+  .finish-time {
+    font-family: var(--font-cond);
+    font-size: 80px;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .finish-workout-name {
+    font-family: var(--font-cond);
+    font-size: 16px;
+    color: #555;
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .finish-pb {
+    font-family: var(--font-cond);
+    font-size: 12px;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 20px;
+    padding: 8px 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .finish-actions {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .finish-home-btn {
+    width: 100%;
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: var(--font-cond);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* ─── PROGRESS TAB ─── */
+  #screen-progress { background: var(--white); }
+
+  .progress-header {
+    background: var(--black);
+    padding: 52px 24px 24px;
+    padding-top: calc(env(safe-area-inset-top, 12px) + 40px);
+  }
+  .progress-header h1 {
+    font-family: var(--font-cond);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+
+  .stats-strip {
+    display: flex;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .stat-block {
+    flex: 1;
+    padding: 16px 20px;
+    border-right: 1px solid var(--gray-100);
+  }
+  .stat-block:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-cond);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: -0.02em;
+  }
+  .stat-lbl {
+    font-size: 10px;
+    color: var(--gray-400);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    font-family: var(--font-cond);
+    font-weight: 600;
+  }
+
+  .progress-list { flex: 1; overflow-y: auto; }
+
+  .progress-entry {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .progress-date {
+    font-family: var(--font-cond);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 3px;
+  }
+  .progress-name {
+    font-family: var(--font-cond);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+  }
+  .progress-time {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-top: 2px;
+  }
+  .progress-pb-tag {
+    display: inline-block;
+    font-family: var(--font-cond);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--black);
+    color: var(--white);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .empty-state {
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .empty-state p {
+    font-family: var(--font-cond);
+    font-size: 14px;
+    color: var(--gray-400);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav {
+    display: flex;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  .nav-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 8px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .nav-icon {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 3px;
+  }
+  .nav-label {
+    font-family: var(--font-cond);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+  }
+  .nav-tab.active .nav-label { color: var(--black); }
+  .nav-tab.active .nav-icon path { fill: var(--black); }
+  .nav-tab .nav-icon path { fill: var(--gray-400); }
+
+  .has-nav { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Scrollable content */
+  .scrollable { overflow-y: auto; flex: 1; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HOME SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-home" class="screen active has-nav">
+  <div class="home-header">
+    <h1>Complexes</h1>
+    <p id="home-subtitle">6 workouts</p>
+  </div>
+  <div class="filter-bar">
+    <div class="filter-chip active" data-filter="all">All</div>
+    <div class="filter-chip" data-filter="easy">Easy</div>
+    <div class="filter-chip" data-filter="medium">Medium</div>
+    <div class="filter-chip" data-filter="hard">Hard</div>
+  </div>
+  <div class="workout-list scrollable" id="workout-list"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     DETAIL SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-detail" class="screen">
+  <div class="detail-hero">
+    <div class="back-btn" onclick="showScreen('home')">
+      <span class="back-arrow">←</span> <span>Back</span>
+    </div>
+    <div class="detail-label">Complex</div>
+    <div class="detail-title" id="detail-title"></div>
+    <div class="detail-sub" id="detail-sub"></div>
+  </div>
+  <div class="scrollable">
+    <div class="detail-description">
+      <p id="detail-description"></p>
+    </div>
+    <div class="detail-section-label">Movements</div>
+    <div id="detail-exercises"></div>
+    <div class="detail-start-wrap">
+      <button class="start-btn" id="detail-start-btn">Start Workout</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     EXERCISE DESCRIPTION SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-exercise" class="screen">
+  <div class="ex-desc-hero">
+    <div class="back-btn" id="ex-back-btn">
+      <span class="back-arrow">←</span> <span>Back</span>
+    </div>
+    <div class="detail-label">Movement</div>
+    <div class="ex-desc-title" id="ex-desc-title"></div>
+  </div>
+  <div class="ex-desc-body scrollable">
+    <div id="ex-desc-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ACTIVE WORKOUT SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-active" class="screen">
+  <div class="active-header">
+    <div class="active-now-label">In Progress</div>
+    <div class="active-title" id="active-title"></div>
+    <div class="active-rounds" id="active-rounds"></div>
+  </div>
+  <div class="timer-section">
+    <div class="timer-display" id="timer-display">00:00</div>
+    <div class="timer-label">Elapsed</div>
+  </div>
+  <div class="active-exercises scrollable">
+    <div class="active-section-label">Movements — complete all rounds</div>
+    <div id="active-exercise-list"></div>
+  </div>
+  <div class="active-finish-wrap">
+    <button class="finish-btn" id="finish-btn">Finish Workout</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FINISH SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-finish" class="screen">
+  <div class="finish-content">
+    <div class="finish-done-label">Complete</div>
+    <div class="finish-time" id="finish-time"></div>
+    <div class="finish-workout-name" id="finish-workout-name"></div>
+    <div class="finish-pb" id="finish-pb" style="display:none">New Personal Best</div>
+    <div class="finish-actions">
+      <button class="finish-home-btn" onclick="goHome()">Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PROGRESS SCREEN
+════════════════════════════════════════════ -->
+<div id="screen-progress" class="screen has-nav">
+  <div class="progress-header">
+    <h1>Progress</h1>
+  </div>
+  <div class="stats-strip">
+    <div class="stat-block">
+      <div class="stat-num" id="stat-sessions">0</div>
+      <div class="stat-lbl">Sessions</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num" id="stat-time">0m</div>
+      <div class="stat-lbl">Total Time</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num" id="stat-complexes">0</div>
+      <div class="stat-lbl">Complexes</div>
+    </div>
+  </div>
+  <div class="progress-list scrollable" id="progress-list"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BOTTOM NAV (shown on home + progress)
+════════════════════════════════════════════ -->
+<nav class="bottom-nav" id="bottom-nav">
+  <div class="nav-tab active" id="nav-home" onclick="switchTab('home')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z"/>
+    </svg>
+    <div class="nav-label">Workouts</div>
+  </div>
+  <div class="nav-tab" id="nav-progress" onclick="switchTab('progress')">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3V21H21M7 16L11 10L15 13L19 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor" fill="none"/>
+    </svg>
+    <div class="nav-label">Progress</div>
+  </div>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const EXERCISES = {
+  "Clean": {
+    name: "Clean",
+    how: "Start with the kettlebell between your feet in a hip-width stance. Hinge at the hips, grip the bell, and swing it back. Drive your hips forward explosively, pulling the bell up close to your body. As it rises, 'punch' your hand through and around the bell so it lands softly on the back of your forearm in the rack position — bell resting against your upper arm and chest, elbow tucked.",
+    cues: ["Keep the bell close to your body on the way up", "Don't let it flip over your wrist — guide it around", "Rack position: elbow in, wrist straight", "Absorb it — don't let it crash into your forearm"]
+  },
+  "Front Squat": {
+    name: "Front Squat",
+    how: "Hold the bell in the rack position (or both bells if double). Feet shoulder-width, toes slightly out. Brace your core, take a breath, and sit straight down, keeping your chest tall and elbows up. Drive through your heels to stand. The bell should stay pinned in the rack throughout — don't let it drift forward.",
+    cues: ["Chest up, elbows high", "Knees track over toes", "Full depth — crease of hip below knee", "Don't let the bell pull you forward"]
+  },
+  "Push Press": {
+    name: "Push Press",
+    how: "Start in the rack position. Dip slightly at the knees — just a short, sharp quarter squat — then drive through your legs as you press the bell overhead. Lock out the arm at the top with your bicep by your ear. Lower it back to the rack. The leg drive is what makes this different from a strict press — use it.",
+    cues: ["Dip is short and fast, not a full squat", "Drive legs first, then press", "Lock out fully at the top", "Pull it back down into the rack, don't just drop it"]
+  },
+  "Back Squat": {
+    name: "Back Squat (Kettlebell)",
+    how: "Place the bell in the rack, then reach across with your free hand to hold the elbow, or press the bell to your shoulder. Alternatively, hold it by the horns behind your neck. Squat as you would normally — chest up, knees out, full depth. This variation shifts the loading and challenges your upper back to stay rigid.",
+    cues: ["Bell stays anchored to your shoulder", "Don't let your chest fall forward", "Same squat mechanics as front squat", "Stand tall at the top"]
+  },
+  "Swing": {
+    name: "Swing",
+    how: "Hinge at the hips with the bell a foot in front of you. Hike it back between your legs, then snap your hips forward to project the bell to shoulder height. It's a hip hinge, not a squat — your arms are just a pendulum. Let it fall back, hinge again, and repeat. The power comes entirely from the hips.",
+    cues: ["Hips back, not down", "Squeeze glutes hard at the top", "Let the bell float — don't muscle it up", "Maintain a flat back throughout"]
+  },
+  "Snatch": {
+    name: "Snatch",
+    how: "Begin like a swing — hike the bell back, snap the hips. As the bell rises, keep it close to your body and punch your hand through at the top so it lands softly overhead with your arm locked out. The bell should end up directly above your shoulder, not out in front. Lower it back down by 'steering' it around your wrist — don't let it crash.",
+    cues: ["Same hip drive as the swing", "Keep it close on the way up", "Punch through at the top — meet the bell", "Arm fully locked out overhead"]
+  },
+  "Press": {
+    name: "Press",
+    how: "Bell in the rack position. Brace hard — core, glutes, everything tight. Press the bell straight overhead in a slight arc, finishing with your bicep by your ear and the bell directly over your shoulder. Lower it slowly back to the rack. No leg drive — this is pure pressing strength.",
+    cues: ["Full-body tension before you press", "Press in a slight arc — not straight up", "Finish tall — don't lean back excessively", "Lower it with control"]
+  },
+  "Row": {
+    name: "Row",
+    how: "Hinge forward at the hips until your torso is roughly parallel to the floor. Bell hanging from your hand, elbow close to your body. Pull the bell up to your hip, driving your elbow back. Pause at the top, then lower with control. Keep your lower back flat and your core braced the entire time.",
+    cues: ["Pull to the hip, not to the chest", "Elbow stays close to your side", "Don't rotate your torso", "Flat back throughout"]
+  },
+  "Deadlift": {
+    name: "Deadlift",
+    how: "Bell on the floor between your feet. Hinge at the hips, push them back, and grip the bell with a neutral spine. Brace your core and lats, then drive your feet into the floor to stand. Squeeze your glutes at lockout. Hinge back down, letting the bell touch the floor before each rep.",
+    cues: ["Hinge at the hips, don't squat it", "Brace before you pull", "Glutes locked at the top", "Bell stays close to your legs"]
+  },
+  "Thruster": {
+    name: "Thruster",
+    how: "Hold the bell in the rack. Squat down as you would for a front squat. At the bottom, use the momentum of standing to drive the bell overhead in one fluid motion — the squat drives the press. Lock out overhead, then lower back to the rack as you descend into the next rep.",
+    cues: ["It's one movement, not two", "Use the leg drive — don't press separately", "Full squat depth", "Fully lock out overhead"]
+  },
+  "High Pull": {
+    name: "High Pull",
+    how: "Like a swing, but instead of letting the bell float at shoulder height, pull your elbow up and back at the top — like a high-elbow row. The bell comes up to chin height with your elbow flared. Let it descend back into the swing.",
+    cues: ["Elbow leads — pull it up and back", "Bell reaches chin height", "Same hip drive as the swing", "Controlled on the way down"]
+  },
+  "Floor Press": {
+    name: "Floor Press",
+    how: "Lie on your back, knees bent, feet flat. Hold the bell and start with your elbow on the floor, upper arm at about 45 degrees to your torso. Press the bell straight up to lockout. Lower slowly until your upper arm touches the floor — that's your range of motion.",
+    cues: ["Upper arm touches floor each rep", "Press straight up, not back toward your head", "Pause briefly at the bottom", "Keep your wrist straight"]
+  },
+  "Around the World": {
+    name: "Around the World",
+    how: "Stand with feet shoulder-width, bell held at arm's length in one hand. Pass it around your body in a circle — to your other hand behind you, back to the front. Control the weight throughout. Complete all reps in one direction, then reverse. It challenges your shoulder stability and grip in ways pressing movements don't.",
+    cues: ["Keep your core braced", "Don't let it pull you around — you control it", "Smooth, controlled arc", "Stand tall throughout"]
+  },
+  "Windmill": {
+    name: "Windmill",
+    how: "Press the bell overhead in one hand, feet slightly wider than shoulder-width, toes angled away from the bell. Keep your eyes on the bell and hinge to the side, sliding your free hand down your inner thigh toward the floor. Keep the bell arm locked straight throughout. Return to standing.",
+    cues: ["Eyes on the bell — always", "Hinge at the hip, don't bend sideways", "Bell arm stays locked", "Go as far as your hamstring flexibility allows"]
+  }
+};
+
+const WORKOUTS = [
+  {
+    id: "bear",
+    name: "The Bear Complex",
+    difficulty: "hard",
+    rounds: 5,
+    description: "A classic barbell complex adapted for kettlebell. Five movements performed back-to-back without setting the bell down. One full sequence counts as one rep — complete five reps per round, five rounds total. Rest between rounds as needed. It will humble you.",
+    exercises: [
+      { name: "Clean", reps: "1 rep" },
+      { name: "Front Squat", reps: "1 rep" },
+      { name: "Push Press", reps: "1 rep" },
+      { name: "Back Squat", reps: "1 rep" },
+      { name: "Push Press", reps: "1 rep" }
+    ]
+  },
+  {
+    id: "viking",
+    name: "Viking Warrior",
+    difficulty: "hard",
+    rounds: 6,
+    description: "Developed by Kenneth Jay, this protocol alternates snatches with swings in a timed, high-volume format. The goal is sustained output under fatigue. Widely used in kettlebell sport training. Demands exceptional conditioning and grip endurance.",
+    exercises: [
+      { name: "Snatch", reps: "10 reps per side" },
+      { name: "Swing", reps: "10 reps" },
+      { name: "Snatch", reps: "10 reps per side" }
+    ]
+  },
+  {
+    id: "armor",
+    name: "Armor Building",
+    difficulty: "medium",
+    rounds: 4,
+    description: "A Dan John staple. Two cleans, one press, three front squats — performed as a single unbroken sequence. Designed to build shoulder and upper back mass while reinforcing movement quality under fatigue. Start lighter than you think you need to.",
+    exercises: [
+      { name: "Clean", reps: "2 reps" },
+      { name: "Press", reps: "1 rep" },
+      { name: "Front Squat", reps: "3 reps" }
+    ]
+  },
+  {
+    id: "manmaker",
+    name: "Man Maker",
+    difficulty: "medium",
+    rounds: 4,
+    description: "A full-body conditioning complex combining pulling, pushing, and squatting in a flow. Often done with two bells or a single bell. High demand on the posterior chain and overhead stability. Rest between rounds but not between movements.",
+    exercises: [
+      { name: "Deadlift", reps: "5 reps" },
+      { name: "Row", reps: "5 reps per side" },
+      { name: "Clean", reps: "5 reps" },
+      { name: "Thruster", reps: "5 reps" }
+    ]
+  },
+  {
+    id: "longcycle",
+    name: "Long Cycle",
+    difficulty: "easy",
+    rounds: 6,
+    description: "The foundational kettlebell sport lift. Clean the bell from the floor to the rack, press it overhead, return to rack, set it down — that's one rep. The 'long' refers to the full range of motion. Deceptively simple. Builds incredible total-body conditioning over time.",
+    exercises: [
+      { name: "Clean", reps: "1 rep" },
+      { name: "Press", reps: "1 rep" }
+    ]
+  },
+  {
+    id: "simple",
+    name: "Simple Strength",
+    difficulty: "easy",
+    rounds: 5,
+    description: "A beginner-friendly complex that covers the fundamental kettlebell patterns. Deadlift, swing, clean, press — four movements that teach you how to load and express power from the hips. Low skill demand, high return. A great entry point before moving to more complex sequences.",
+    exercises: [
+      { name: "Deadlift", reps: "5 reps" },
+      { name: "Swing", reps: "10 reps" },
+      { name: "Clean", reps: "5 reps" },
+      { name: "Press", reps: "5 reps" }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+
+let currentWorkoutId = null;
+let timerInterval = null;
+let timerSeconds = 0;
+let wakeLock = null;
+let currentFilter = 'all';
+let exBackScreen = 'detail';
+
+// Storage helpers
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('kb_history') || '[]'); } catch { return []; }
+}
+function saveHistory(h) {
+  try { localStorage.setItem('kb_history', JSON.stringify(h)); } catch {}
+}
+function getBests() {
+  try { return JSON.parse(localStorage.getItem('kb_bests') || '{}'); } catch { return {}; }
+}
+function saveBests(b) {
+  try { localStorage.setItem('kb_bests', JSON.stringify(b)); } catch {}
+}
+
+// ═══════════════════════════════════════════
+// SCREEN MANAGEMENT
+// ═══════════════════════════════════════════
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const navScreens = ['home', 'progress'];
+  document.getElementById('bottom-nav').style.display = navScreens.includes(name) ? 'flex' : 'none';
+}
+
+function switchTab(tab) {
+  showScreen(tab);
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('nav-' + tab).classList.add('active');
+  if (tab === 'progress') renderProgress();
+}
+
+// ═══════════════════════════════════════════
+// HOME SCREEN
+// ═══════════════════════════════════════════
+
+function renderHome() {
+  const list = document.getElementById('workout-list');
+  const history = getHistory();
+  const lastSessions = {};
+  history.forEach(h => {
+    if (!lastSessions[h.id]) lastSessions[h.id] = h;
+  });
+
+  const filtered = currentFilter === 'all' ? WORKOUTS : WORKOUTS.filter(w => w.difficulty === currentFilter);
+
+  list.innerHTML = filtered.map(w => {
+    const last = lastSessions[w.id];
+    const lastStr = last
+      ? `<div class="workout-card-last">Last: <span>${formatTime(last.seconds)}</span> &middot; ${formatDate(last.date)}</div>`
+      : `<div class="workout-card-last" style="color:var(--gray-400)">Not yet attempted</div>`;
+    const diffLabel = w.difficulty.charAt(0).toUpperCase() + w.difficulty.slice(1);
+    const diffClass = w.difficulty === 'easy' ? 'diff-easy' : w.difficulty === 'medium' ? 'diff-med' : 'diff-hard';
+    return `
+      <div class="workout-card" onclick="openDetail('${w.id}')">
+        <div class="workout-card-info">
+          <div class="workout-card-name">
+            ${w.name}
+            <span class="diff-badge ${diffClass}">${diffLabel}</span>
+          </div>
+          <div class="workout-card-meta">${w.exercises.length} movements &middot; ${w.rounds} rounds</div>
+          ${lastStr}
+        </div>
+        <div class="workout-card-arrow">›</div>
+      </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    currentFilter = chip.dataset.filter;
+    renderHome();
+  });
+});
+
+// ═══════════════════════════════════════════
+// DETAIL SCREEN
+// ═══════════════════════════════════════════
+
+function openDetail(id) {
+  const w = WORKOUTS.find(x => x.id === id);
+  currentWorkoutId = id;
+  document.getElementById('detail-title').textContent = w.name;
+  document.getElementById('detail-sub').textContent = `${w.rounds} rounds · ${w.exercises.length} movements`;
+  document.getElementById('detail-description').textContent = w.description;
+
+  const exDiv = document.getElementById('detail-exercises');
+  exDiv.innerHTML = w.exercises.map((e, i) => `
+    <div class="exercise-row" onclick="openExercise('${e.name}', 'detail')">
+      <div class="ex-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="ex-info">
+        <div class="ex-name-text">${e.name}</div>
+        <div class="ex-reps">${e.reps}</div>
+      </div>
+      <div class="ex-chevron">›</div>
+    </div>`).join('');
+
+  document.getElementById('detail-start-btn').onclick = () => startWorkout(id);
+  showScreen('detail');
+}
+
+// ═══════════════════════════════════════════
+// EXERCISE DESCRIPTION SCREEN
+// ═══════════════════════════════════════════
+
+function openExercise(name, fromScreen) {
+  exBackScreen = fromScreen;
+  const ex = EXERCISES[name];
+  if (!ex) return;
+
+  document.getElementById('ex-desc-title').textContent = ex.name;
+  document.getElementById('ex-back-btn').onclick = () => showScreen(exBackScreen);
+
+  const cuesHtml = ex.cues.map(c => `<li>${c}</li>`).join('');
+  document.getElementById('ex-desc-content').innerHTML = `
+    <div class="ex-desc-section">
+      <h3>How to perform</h3>
+      <p>${ex.how}</p>
+    </div>
+    <div class="ex-desc-section">
+      <h3>Coaching cues</h3>
+      <ul>${cuesHtml}</ul>
+    </div>`;
+
+  showScreen('exercise');
+}
+
+// ═══════════════════════════════════════════
+// ACTIVE WORKOUT
+// ═══════════════════════════════════════════
+
+async function startWorkout(id) {
+  const w = WORKOUTS.find(x => x.id === id);
+  currentWorkoutId = id;
+  timerSeconds = 0;
+
+  document.getElementById('active-title').textContent = w.name;
+  document.getElementById('active-rounds').textContent = `${w.rounds} rounds · ${w.exercises.length} movements per round`;
+  document.getElementById('timer-display').textContent = '00:00';
+
+  const list = document.getElementById('active-exercise-list');
+  list.innerHTML = w.exercises.map((e, i) => `
+    <div class="active-ex-row">
+      <div class="active-ex-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="active-ex-name">${e.name}</div>
+      <div class="active-ex-reps">${e.reps}</div>
+    </div>`).join('');
+
+  document.getElementById('finish-btn').onclick = finishWorkout;
+
+  showScreen('active');
+
+  // Wake lock
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch(e) {}
+
+  // Start timer
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+  }, 1000);
+}
+
+function finishWorkout() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  // Release wake lock
+  if (wakeLock) { try { wakeLock.release(); } catch(e) {} wakeLock = null; }
+
+  const seconds = timerSeconds;
+  const id = currentWorkoutId;
+
+  // Check PB
+  const bests = getBests();
+  const isPB = !bests[id] || seconds < bests[id];
+  if (isPB) { bests[id] = seconds; saveBests(bests); }
+
+  // Save history
+  const history = getHistory();
+  history.unshift({ id, seconds, date: new Date().toISOString() });
+  saveHistory(history);
+
+  // Show finish screen
+  const w = WORKOUTS.find(x => x.id === id);
+  document.getElementById('finish-time').textContent = formatTime(seconds);
+  document.getElementById('finish-workout-name').textContent = w.name;
+  document.getElementById('finish-pb').style.display = isPB ? 'inline-block' : 'none';
+
+  showScreen('finish');
+}
+
+function goHome() {
+  renderHome();
+  showScreen('home');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// PROGRESS SCREEN
+// ═══════════════════════════════════════════
+
+function renderProgress() {
+  const history = getHistory();
+  const bests = getBests();
+
+  // Stats
+  const totalSecs = history.reduce((a, h) => a + h.seconds, 0);
+  const mins = Math.floor(totalSecs / 60);
+  const uniqueComplexes = new Set(history.map(h => h.id)).size;
+  document.getElementById('stat-sessions').textContent = history.length;
+  document.getElementById('stat-time').textContent = mins >= 60 ? `${Math.floor(mins/60)}h ${mins%60}m` : `${mins}m`;
+  document.getElementById('stat-complexes').textContent = uniqueComplexes;
+
+  // List
+  const listEl = document.getElementById('progress-list');
+  if (!history.length) {
+    listEl.innerHTML = `<div class="empty-state"><p>No workouts yet.<br>Get after it.</p></div>`;
+    return;
+  }
+
+  listEl.innerHTML = history.map(h => {
+    const w = WORKOUTS.find(x => x.id === h.id);
+    const isPB = bests[h.id] === h.seconds;
+    return `
+      <div class="progress-entry">
+        <div class="progress-date">${formatDate(h.date)}</div>
+        <div class="progress-name">${w ? w.name : h.id}${isPB ? '<span class="progress-pb-tag">PB</span>' : ''}</div>
+        <div class="progress-time">${formatTime(h.seconds)}</div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+
+renderHome();
+</script>
+</body>
+</html>

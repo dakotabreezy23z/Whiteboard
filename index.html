@@ -16,11 +16,11 @@
   :root {
     --black: #111111;
     --white: #ffffff;
-    --gray-100: #f5f5f5;
-    --gray-200: #e8e8e8;
-    --gray-400: #aaaaaa;
-    --gray-600: #666666;
-    --gray-800: #333333;
+    --gray-100: #f9f9f9;
+    --gray-200: #f0f0f0;
+    --gray-400: #c8c8c8;
+    --gray-600: #aaaaaa;
+    --gray-800: #888888;
     --font-main: 'Barlow', sans-serif;
     --font-cond: 'Barlow Condensed', sans-serif;
   }
@@ -60,7 +60,7 @@
     line-height: 1;
   }
   .home-header p {
-    font-size: 12px;
+    font-size: 15px;
     color: var(--gray-400);
     margin-top: 4px;
     letter-spacing: 0.08em;
@@ -138,7 +138,7 @@
     letter-spacing: 0.03em;
   }
   .workout-card-last {
-    font-size: 10px;
+    font-size: 13px;
     color: var(--gray-600);
     margin-top: 5px;
     letter-spacing: 0.02em;
@@ -177,7 +177,7 @@
   .back-arrow { font-size: 19px; }
 
   .detail-label {
-    font-size: 15px;
+    font-size: 13px;
     color: var(--gray-600);
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -265,9 +265,9 @@
     color: var(--white);
     border: none;
     border-radius: 6px;
-    padding: 16px;
+    padding: 20px;
     font-family: var(--font-cond);
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -324,7 +324,7 @@
     background: var(--black);
     padding: 0 24px 20px;
     padding-top: calc(env(safe-area-inset-top, 12px) + 16px);
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #2a2a2a;
   }
   .active-now-label {
     font-family: var(--font-cond);
@@ -332,19 +332,20 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #444;
+    color: #666;
     margin-bottom: 4px;
   }
   .active-title {
     font-family: var(--font-cond);
-    font-size: 28px;
+    font-size: 42px;
     font-weight: 700;
     color: var(--white);
     letter-spacing: -0.01em;
+    line-height: 1.05;
   }
   .active-rounds {
     font-size: 15px;
-    color: #555;
+    color: #777;
     margin-top: 4px;
     letter-spacing: 0.04em;
   }
@@ -355,7 +356,7 @@
   }
   .timer-display {
     font-family: var(--font-cond);
-    font-size: 72px;
+    font-size: 100px;
     font-weight: 300;
     color: var(--white);
     letter-spacing: -0.02em;
@@ -363,7 +364,7 @@
   }
   .timer-label {
     font-size: 17px;
-    color: #444;
+    color: #666;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: var(--font-cond);
@@ -382,33 +383,33 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #333;
+    color: #555;
     padding: 14px 24px 6px;
   }
   .active-ex-row {
     display: flex;
     align-items: center;
-    padding: 12px 24px;
-    border-bottom: 1px solid #1a1a1a;
+    padding: 16px 24px;
+    border-bottom: 1px solid #1e1e1e;
     gap: 14px;
   }
   .active-ex-num {
     font-family: var(--font-cond);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
-    color: #333;
-    width: 18px;
+    color: #555;
+    width: 24px;
     flex-shrink: 0;
   }
   .active-ex-name {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 500;
-    color: #888;
+    color: #bbb;
     flex: 1;
   }
   .active-ex-reps {
-    font-size: 18px;
-    color: #333;
+    font-size: 22px;
+    color: #555;
   }
 
   .active-finish-wrap {
@@ -419,19 +420,19 @@
   .finish-btn {
     width: 100%;
     background: transparent;
-    color: #444;
-    border: 1px solid #2a2a2a;
+    color: #666;
+    border: 1px solid #333;
     border-radius: 6px;
-    padding: 14px;
+    padding: 20px;
     font-family: var(--font-cond);
-    font-size: 13px;
+    font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.15s;
   }
-  .finish-btn:active { border-color: #555; color: #888; }
+  .finish-btn:active { border-color: #666; color: #999; }
 
   /* ─── FINISH SCREEN ─── */
   #screen-finish { background: var(--black); justify-content: center; align-items: center; }
@@ -447,7 +448,7 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #444;
+    color: #666;
     margin-bottom: 12px;
   }
   .finish-time {
@@ -461,7 +462,7 @@
   .finish-workout-name {
     font-family: var(--font-cond);
     font-size: 25px;
-    color: #555;
+    color: #777;
     letter-spacing: 0.04em;
     margin-top: 8px;
     text-transform: uppercase;
@@ -474,7 +475,7 @@
     text-transform: uppercase;
     margin-top: 20px;
     padding: 8px 16px;
-    border: 1px solid #333;
+    border: 1px solid #444;
     border-radius: 4px;
     display: inline-block;
   }
@@ -533,7 +534,7 @@
     letter-spacing: -0.02em;
   }
   .stat-lbl {
-    font-size: 10px;
+    font-size: 13px;
     color: var(--gray-400);
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -550,7 +551,7 @@
   }
   .progress-date {
     font-family: var(--font-cond);
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -559,12 +560,12 @@
   }
   .progress-name {
     font-family: var(--font-cond);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--black);
   }
   .progress-time {
-    font-size: 13px;
+    font-size: 16px;
     color: var(--gray-600);
     margin-top: 2px;
   }
@@ -646,7 +647,7 @@
 <div id="screen-home" class="screen active has-nav">
   <div class="home-header">
     <h1>Whiteboard</h1>
-    <p id="home-subtitle">6 workouts</p>
+    <p id="home-subtitle">12 workouts</p>
   </div>
   <div class="filter-bar">
     <div class="filter-chip active" data-filter="all">All</div>
@@ -670,9 +671,6 @@
     <div class="detail-sub" id="detail-sub"></div>
   </div>
   <div class="scrollable">
-    <div class="detail-description">
-      <p id="detail-description"></p>
-    </div>
     <div class="detail-section-label">Movements</div>
     <div id="detail-exercises"></div>
     <div class="detail-start-wrap">
@@ -711,7 +709,6 @@
     <div class="timer-label">Elapsed</div>
   </div>
   <div class="active-exercises scrollable">
-    <div class="active-section-label">Movements — complete all rounds</div>
     <div id="active-exercise-list"></div>
   </div>
   <div class="active-finish-wrap">
@@ -860,7 +857,6 @@ const WORKOUTS = [
     name: "The Bear Complex",
     difficulty: "hard",
     rounds: 5,
-    description: "A classic barbell complex adapted for kettlebell. Five movements performed back-to-back without setting the bell down. One full sequence counts as one rep — complete five reps per round, five rounds total. Rest between rounds as needed. It will humble you.",
     exercises: [
       { name: "Clean", reps: "8 reps" },
       { name: "Front Squat", reps: "8 reps" },
@@ -874,7 +870,6 @@ const WORKOUTS = [
     name: "Viking Warrior",
     difficulty: "hard",
     rounds: 6,
-    description: "Developed by Kenneth Jay, this protocol alternates snatches with swings in a timed, high-volume format. The goal is sustained output under fatigue. Widely used in kettlebell sport training. Demands exceptional conditioning and grip endurance.",
     exercises: [
       { name: "Snatch", reps: "10 reps per side" },
       { name: "Swing", reps: "10 reps" },
@@ -882,14 +877,25 @@ const WORKOUTS = [
     ]
   },
   {
+    id: "ironback",
+    name: "Iron Back",
+    difficulty: "hard",
+    rounds: 5,
+    exercises: [
+      { name: "Deadlift", reps: "8 reps" },
+      { name: "Row", reps: "8 reps per side" },
+      { name: "High Pull", reps: "8 reps" },
+      { name: "Swing", reps: "10 reps" }
+    ]
+  },
+  {
     id: "armor",
     name: "Armor Building",
     difficulty: "medium",
     rounds: 4,
-    description: "A Dan John staple. Two cleans, one press, three front squats — performed as a single unbroken sequence. Designed to build shoulder and upper back mass while reinforcing movement quality under fatigue. Start lighter than you think you need to.",
     exercises: [
       { name: "Clean", reps: "10 reps" },
-      { name: "Press", reps: "10 rep" },
+      { name: "Press", reps: "10 reps" },
       { name: "Front Squat", reps: "10 reps" }
     ]
   },
@@ -898,7 +904,6 @@ const WORKOUTS = [
     name: "Man Maker",
     difficulty: "medium",
     rounds: 4,
-    description: "A full-body conditioning complex combining pulling, pushing, and squatting in a flow. Often done with two bells or a single bell. High demand on the posterior chain and overhead stability. Rest between rounds but not between movements.",
     exercises: [
       { name: "Deadlift", reps: "5 reps" },
       { name: "Row", reps: "5 reps per side" },
@@ -907,11 +912,46 @@ const WORKOUTS = [
     ]
   },
   {
+    id: "shoulderforge",
+    name: "Shoulder Forge",
+    difficulty: "medium",
+    rounds: 4,
+    exercises: [
+      { name: "Clean", reps: "6 reps" },
+      { name: "Press", reps: "6 reps per side" },
+      { name: "Push Press", reps: "8 reps" },
+      { name: "Around the World", reps: "5 reps each direction" }
+    ]
+  },
+  {
+    id: "legday",
+    name: "Leg Day Reckoning",
+    difficulty: "medium",
+    rounds: 4,
+    exercises: [
+      { name: "Deadlift", reps: "8 reps" },
+      { name: "Swing", reps: "10 reps" },
+      { name: "Front Squat", reps: "8 reps" },
+      { name: "Thruster", reps: "6 reps" }
+    ]
+  },
+  {
+    id: "pulltower",
+    name: "Pull Tower",
+    difficulty: "medium",
+    rounds: 4,
+    exercises: [
+      { name: "Deadlift", reps: "6 reps" },
+      { name: "Row", reps: "8 reps per side" },
+      { name: "High Pull", reps: "8 reps" },
+      { name: "Clean", reps: "6 reps" }
+    ]
+  },
+  {
     id: "longcycle",
     name: "Long Cycle",
     difficulty: "easy",
     rounds: 6,
-    description: "The foundational kettlebell sport lift. Clean the bell from the floor to the rack, press it overhead, return to rack, set it down — that's one rep. The 'long' refers to the full range of motion. Deceptively simple. Builds incredible total-body conditioning over time.",
     exercises: [
       { name: "Clean", reps: "8 reps" },
       { name: "Press", reps: "8 reps" }
@@ -922,12 +962,35 @@ const WORKOUTS = [
     name: "Simple Strength",
     difficulty: "easy",
     rounds: 5,
-    description: "A beginner-friendly complex that covers the fundamental kettlebell patterns. Deadlift, swing, clean, press — four movements that teach you how to load and express power from the hips. Low skill demand, high return. A great entry point before moving to more complex sequences.",
     exercises: [
       { name: "Deadlift", reps: "5 reps" },
       { name: "Swing", reps: "10 reps" },
       { name: "Clean", reps: "5 reps" },
       { name: "Press", reps: "5 reps" }
+    ]
+  },
+  {
+    id: "hipfirst",
+    name: "Hip First",
+    difficulty: "easy",
+    rounds: 5,
+    exercises: [
+      { name: "Deadlift", reps: "6 reps" },
+      { name: "Swing", reps: "10 reps" },
+      { name: "High Pull", reps: "8 reps" }
+    ]
+  },
+  {
+    id: "groundup",
+    name: "Ground Up",
+    difficulty: "easy",
+    rounds: 5,
+    exercises: [
+      { name: "Deadlift", reps: "8 reps" },
+      { name: "Row", reps: "6 reps per side" },
+      { name: "Clean", reps: "6 reps" },
+      { name: "Front Squat", reps: "6 reps" },
+      { name: "Press", reps: "6 reps" }
     ]
   }
 ];
@@ -1029,7 +1092,6 @@ function openDetail(id) {
   currentWorkoutId = id;
   document.getElementById('detail-title').textContent = w.name;
   document.getElementById('detail-sub').textContent = `${w.rounds} rounds · ${w.exercises.length} movements`;
-  document.getElementById('detail-description').textContent = w.description;
 
   const exDiv = document.getElementById('detail-exercises');
   exDiv.innerHTML = w.exercises.map((e, i) => `
